@@ -27,7 +27,7 @@ class MyApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: "Gourmet",
       theme: ref.watch(themeProvider),
       routerDelegate: ref.watch(rootRouterDelegate),
       routeInformationParser: RoutebornRouteInfoParser(

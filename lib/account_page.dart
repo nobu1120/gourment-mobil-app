@@ -24,23 +24,59 @@ class AccountPage extends RoutebornPage {
   String getPagePathBase() => pagePathBase;
 }
 
+// TODO : to use font awesome icon
+// TODO : let me check why the elevated button doens't work inside stack widget
 class AccountPageView extends HookConsumerWidget {
   const AccountPageView({Key? key}) : super(key: key);
+  final double coverHeight = 180;
+  final double profileHeight = 60;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedTheme = ref.watch(themeProvider.notifier);
+    final double top = coverHeight - profileHeight / 2;
 
     return Center(
         child: Column(
       children: [
-        Text("Toggle theme"),
-        ElevatedButton(
-            onPressed: () => selectedTheme.update((state) => ThemeData.dark()),
-            child: Text("Dark mode")),
-        ElevatedButton(
-            onPressed: () => selectedTheme.update((state) => ThemeData.light()),
-            child: Text("Light mode"))
+        Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.center,
+          children: [
+            buildCoverImage(),
+            Positioned(top: top, child: buildProfileImage()),
+            Positioned(
+                top: coverHeight + profileHeight / 2 + 20,
+                child: Column(
+                  children: [
+                    Text("Toggle theme"),
+                    ElevatedButton(
+                        onPressed: () => selectedTheme
+                            .update((state) => state = ThemeData.dark()),
+                        child: Text("Dark mode")),
+                    ElevatedButton(
+                        onPressed: () => selectedTheme
+                            .update((state) => state = ThemeData.light()),
+                        child: Text("Light mode"))
+                  ],
+                ))
+          ],
+        ),
       ],
     ));
   }
+
+  Widget buildCoverImage() => Container(
+      color: Colors.grey,
+      child: Image.network(
+          'https://firebasestorage.googleapis.com/v0/b/evewel-matching.appspot.com/o/wantedImage1-eY2BDJ4fu6B1ApR0C0mW?alt=media&token=049f10ea-4b4d-4c2c-b78f-9ccc058631df',
+          width: double.infinity,
+          height: coverHeight,
+          fit: BoxFit.cover));
+
+  Widget buildProfileImage() => CircleAvatar(
+      backgroundColor: Colors.grey.shade800,
+      radius: profileHeight / 2,
+      backgroundImage: NetworkImage(
+          'https://firebasestorage.googleapis.com/v0/b/evewel-matching.appspot.com/o/profileImage1-35RHzij3TSfj9yrmof5M2iMiD413?alt=media&token=dea3a5aa-afbc-4efd-911d-fb4d4e99b0c9'));
 }
