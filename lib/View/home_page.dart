@@ -8,7 +8,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:routeborn/routeborn.dart';
-import 'package:gourmet/help_page.dart';
+import 'package:gourmet/View/help_page.dart';
 
 class HomePage extends RoutebornPage {
   static const pagePathBase = 'home';

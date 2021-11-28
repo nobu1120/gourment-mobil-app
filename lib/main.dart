@@ -1,6 +1,6 @@
-import 'package:gourmet/home.dart';
+import 'package:gourmet/View/home_page.dart';
 import 'package:gourmet/my_theme.dart';
-import 'package:gourmet/page_404.dart';
+import 'package:gourmet/View/page_404.dart';
 import 'package:gourmet/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
