@@ -106,13 +106,14 @@ class HomePageView extends HookConsumerWidget {
                   );
             },
             items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
-              BottomNavigationBarItem(icon: Icon(Icons.book), label: 'diary'),
-              BottomNavigationBarItem(icon: Icon(Icons.add), label: 'write'),
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'HOME'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite), label: 'favorite'),
+                  icon: Icon(Icons.menu_book), label: 'Diary'),
+              BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: 'account'),
+                  icon: Icon(Icons.bookmark), label: 'Bookmark'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person), label: 'Account'),
             ],
           ),
           tabBuilder: (BuildContext context, int index) =>
