@@ -9,6 +9,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:routeborn/routeborn.dart';
 import 'package:gourmet/View/help_page.dart';
+import 'diarylist_page.dart';
+
+final branchProvider = StateProvider((ref) => NestingBranch.Home);
+final branchNotifier = branchProvider.notifier;
 
 class HomePage extends RoutebornPage {
   static const pagePathBase = 'home';
@@ -41,11 +45,11 @@ class HomePageView extends HookConsumerWidget {
         return NestingBranch.Home;
       case 1:
         return NestingBranch.Diary;
+      // case 2:
+      //   return NestingBranch.WriteDiary;
       case 2:
-        return NestingBranch.WriteDiary;
-      case 3:
         return NestingBranch.Favorite;
-      case 4:
+      case 3:
         return NestingBranch.Account;
     }
     throw FlutterError('Cannot have other branch');
@@ -61,12 +65,12 @@ class HomePageView extends HookConsumerWidget {
               return 0;
             case NestingBranch.Diary:
               return 1;
-            case NestingBranch.WriteDiary:
-              return 2;
+            // case NestingBranch.WriteDiary:
+            // return 2;
             case NestingBranch.Favorite:
-              return 3;
+              return 2;
             case NestingBranch.Account:
-              return 4;
+              return 3;
           }
         },
       ),
@@ -88,38 +92,107 @@ class HomePageView extends HookConsumerWidget {
           ),
         ],
       ),
-      body: SafeArea(
-        child: CupertinoTabScaffold(
-          controller: ctrl,
-          tabBar: CupertinoTabBar(
-            onTap: (tabId) {
-              // `setNestingBranch` here is called with the parameter `inChildNavigator: true`
-              // Because the Router is in the same context.
-
-              // Other possible solution in this case would be to wrap
-              // `BottomNavigationBar` with `Builder()` widget. After that,
-              // the parameter `inChildNavigator: true` would not be needed
-              ref.watch(navigationNotifierProvider).setNestingBranch(
-                    context,
-                    index2Branch(tabId),
-                    inChildNavigator: true,
-                  );
-            },
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'HOME'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.menu_book), label: 'Diary'),
-              BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.bookmark), label: 'Bookmark'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: 'Account'),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        color: Theme.of(context).primaryColor,
+        notchMargin: 6.0,
+        shape: AutomaticNotchedShape(
+          RoundedRectangleBorder(),
+          StadiumBorder(
+            side: BorderSide(),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: new Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  ref
+                      .watch(branchNotifier)
+                      .update((state) => state = NestingBranch.Home);
+                },
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.menu_book,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  ref
+                      .watch(branchNotifier)
+                      .update((state) => state = NestingBranch.Diary);
+                },
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.bookmark,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  ref
+                      .watch(branchNotifier)
+                      .update((state) => state = NestingBranch.Favorite);
+                },
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  ref
+                      .watch(branchNotifier)
+                      .update((state) => state = NestingBranch.Account);
+                },
+              ),
             ],
           ),
-          tabBuilder: (BuildContext context, int index) =>
-              _Tab(index2Branch(index)),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        // backgroundColor: Theme.of(context).accentColor,
+        onPressed: () {},
+        child: Icon(Icons.add),
+      ),
+      body: SafeArea(child: _Tab(ref.watch(branchProvider))
+          // child: CupertinoTabScaffold(
+          //   controller: ctrl,
+          //   tabBar: CupertinoTabBar(
+          //     onTap: (tabId) {
+          //       // `setNestingBranch` here is called with the parameter `inChildNavigator: true`
+          //       // Because the Router is in the same context.
+
+          //       // Other possible solution in this case would be to wrap
+          //       // `BottomNavigationBar` with `Builder()` widget. After that,
+          //       // the parameter `inChildNavigator: true` would not be needed
+          //       ref.watch(navigationNotifierProvider).setNestingBranch(
+          //             context,
+          //             index2Branch(tabId),
+          //             inChildNavigator: true,
+          //           );
+          //     },
+          //     items: const [
+          //       BottomNavigationBarItem(icon: Icon(Icons.home), label: 'HOME'),
+          //       BottomNavigationBarItem(
+          //           icon: Icon(Icons.menu_book), label: 'Diary'),
+          //       // BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
+          //       BottomNavigationBarItem(
+          //           icon: Icon(Icons.bookmark), label: 'Bookmark'),
+          //       BottomNavigationBarItem(
+          //           icon: Icon(Icons.person), label: 'Account'),
+          //     ],
+          //   ),
+          //   tabBuilder: (BuildContext context, int index) =>
+          //       _Tab(index2Branch(index)),
+          // ),
+          ),
     );
   }
 }
