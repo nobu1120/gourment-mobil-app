@@ -8,7 +8,7 @@ import 'package:gourmet/View/account_page.dart';
 import 'package:gourmet/View/write_diary_page.dart';
 import 'package:gourmet/View/diarylist_page.dart';
 
-enum NestingBranch { Home, Diary, WriteDiary, Favorite, Account }
+enum NestingBranch { Home, Diary, Favorite, Account }
 
 final routes = <String, RouteNode<NestingBranch>>{
   HomePage.pagePathBase: RouteNode(
@@ -30,10 +30,10 @@ final routes = <String, RouteNode<NestingBranch>>{
           DiaryListPage.pagePathBase,
           RouteNode(NonParametrizedPage(() => DiaryListPage())),
         ),
-        NestingBranch.WriteDiary: BranchInitNode(
-          WriteDiaryPage.pagePathBase,
-          RouteNode(NonParametrizedPage(() => WriteDiaryPage())),
-        ),
+        // NestingBranch.WriteDiary: BranchInitNode(
+        //   WriteDiaryPage.pagePathBase,
+        //   RouteNode(NonParametrizedPage(() => WriteDiaryPage())),
+        // ),
         NestingBranch.Favorite: BranchInitNode(
           FavoritesPage.pagePathBase,
           RouteNode(NonParametrizedPage(() => FavoritesPage())),
@@ -45,6 +45,8 @@ final routes = <String, RouteNode<NestingBranch>>{
       },
     ),
     routes: {
+      // DiaryListPage.pagePathBase:
+      //     RouteNode(NonParametrizedPage(() => DiaryListPage())),
       HelpPage.pagePathBase: RouteNode(NonParametrizedPage(() => HelpPage()))
     },
   ),

@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:routeborn/routeborn.dart';
 import 'package:gourmet/my_theme.dart';
 import 'package:flutter/material.dart';
+import 'commonUI.dart';
 
 class AccountPage extends RoutebornPage {
   static const pagePathBase = 'account';
@@ -52,7 +53,11 @@ class AccountPageView extends HookConsumerWidget {
             Container(
                 margin: EdgeInsets.only(bottom: bottom),
                 child: buildCoverImage(coverHeight)),
-            Positioned(top: top, child: buildProfileImage(profileHeight / 2)),
+            Positioned(
+                top: top,
+                child: buildProfileImage(
+                    'https://firebasestorage.googleapis.com/v0/b/evewel-matching.appspot.com/o/profileImage1-35RHzij3TSfj9yrmof5M2iMiD413?alt=media&token=dea3a5aa-afbc-4efd-911d-fb4d4e99b0c9',
+                    profileHeight / 2)),
           ],
         ),
         Text("xxxxx xxxxx",
@@ -60,7 +65,7 @@ class AccountPageView extends HookConsumerWidget {
                 fontSize: 18,
                 color: txtWhiteColor,
                 fontWeight: FontWeight.bold)),
-        Text("xx歳/男性", style: TextStyle(fontSize: 14, color: txtColor)),
+        Text("xx歳/男性", style: TextStyle(fontSize: 14, color: txtGreyColor)),
         //TODO : light,darkテーマの切り替え(後で場所変える)
         Expanded(
           child: Padding(
@@ -94,7 +99,7 @@ class AccountPageView extends HookConsumerWidget {
           SizedBox(
               width: 300,
               child: Text("楽しかった思い出",
-                  style: TextStyle(fontSize: 14, color: txtColor))),
+                  style: TextStyle(fontSize: 14, color: txtGreyColor))),
           buildVerticalDiary()
         ],
       );
@@ -108,11 +113,12 @@ class AccountPageView extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("xxxxの日記", style: TextStyle(fontSize: 14, color: txtColor)),
+              Text("xxxxの日記",
+                  style: TextStyle(fontSize: 14, color: txtGreyColor)),
               Row(
                 children: [
                   Text("Check→",
-                      style: TextStyle(fontSize: 14, color: txtColor)),
+                      style: TextStyle(fontSize: 14, color: txtGreyColor)),
                   IconButton(
                       padding: EdgeInsets.zero,
                       constraints: BoxConstraints(),
@@ -120,7 +126,7 @@ class AccountPageView extends HookConsumerWidget {
                       onPressed: () {},
                       icon: Icon(
                         Icons.book,
-                        color: txtColor,
+                        color: txtGreyColor,
                       ))
                 ],
               )
@@ -136,12 +142,6 @@ class AccountPageView extends HookConsumerWidget {
           width: double.infinity,
           height: height,
           fit: BoxFit.cover));
-
-  Widget buildProfileImage(double height) => CircleAvatar(
-      backgroundColor: Colors.grey.shade800,
-      radius: height,
-      backgroundImage: NetworkImage(
-          'https://firebasestorage.googleapis.com/v0/b/evewel-matching.appspot.com/o/profileImage1-35RHzij3TSfj9yrmof5M2iMiD413?alt=media&token=dea3a5aa-afbc-4efd-911d-fb4d4e99b0c9'));
 
   final List<Widget> _diaryList = [
     dummyHorizontalDiary(),
