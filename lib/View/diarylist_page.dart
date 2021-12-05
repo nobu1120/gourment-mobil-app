@@ -9,6 +9,7 @@ import 'package:gourmet/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'commonUI.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DiaryListPage extends RoutebornPage {
   static const pagePathBase = 'DiaryListPage';
@@ -41,15 +42,82 @@ class DiaryListPageView extends HookConsumerWidget {
               child: Column(
         children: [
           buildDiary(height: _height),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  buildVerticalFaIcon(
+                    txt: "魚民",
+                    icon: FontAwesomeIcons.locationArrow,
+                    onpressed: () {},
+                    color: txtOrangeColor,
+                  ),
+                  SizedBox(width: 5),
+                  buildVerticalFaIcon(
+                    txt: "Instagram",
+                    icon: FontAwesomeIcons.instagram,
+                    onpressed: () {},
+                    color: txtPinkColor,
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  buildVerticalFaIcon(
+                    txt: "18",
+                    icon: FontAwesomeIcons.heart,
+                    onpressed: () {},
+                    color: txtGreyColor,
+                  ),
+                  SizedBox(width: 5),
+                  buildVerticalFaIcon(
+                    txt: "12",
+                    icon: FontAwesomeIcons.commentDots,
+                    onpressed: () {},
+                    color: txtGreyColor,
+                  )
+                ],
+              )
+            ],
+          ),
           Divider(
             indent: 5,
             endIndent: 5,
             thickness: 1,
           ),
-          buildDiary(height: _height)
+          buildDiary(height: _height),
         ],
       ))),
     ));
+  }
+}
+
+class buildVerticalFaIcon extends StatelessWidget {
+  final txt;
+  final icon;
+  final color;
+  final onpressed;
+  const buildVerticalFaIcon(
+      {Key? key, this.txt, this.icon, this.color, this.onpressed})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+            padding: EdgeInsets.zero,
+            constraints: BoxConstraints(),
+            color: color,
+            onPressed: onpressed,
+            icon: FaIcon(
+              icon,
+              size: 18,
+            )),
+        Text(txt, style: TextStyle(fontSize: 14, color: color))
+      ],
+    );
   }
 }
 
@@ -211,9 +279,25 @@ class buildUserIcon extends StatelessWidget {
     final _width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildUserInfo(height: _height),
+          Expanded(child: buildUserInfo(height: _height)),
+          SizedBox(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text("10分前",
+                    style: TextStyle(fontSize: 12, color: txtGreyColor)),
+                buildVerticalFaIcon(
+                  icon: FontAwesomeIcons.ellipsisH,
+                  txt: "",
+                  color: txtGreyColor,
+                  onpressed: () {},
+                )
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -227,40 +311,57 @@ class buildStoreInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Row(
       children: [
-        Padding(
-          padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-          child: buildRectImage(
-              'https://firebasestorage.googleapis.com/v0/b/evewel-matching.appspot.com/o/wantedImage1-eY2BDJ4fu6B1ApR0C0mW?alt=media&token=049f10ea-4b4d-4c2c-b78f-9ccc058631df',
-              50,
-              40),
-        ),
-        Flexible(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        SizedBox(
+          width: width * 0.9,
+          child: Row(
             children: [
-              Text(
-                "Store name",
-                style: TextStyle(fontSize: 18, color: txtWhiteColor),
+              Padding(
+                padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                child: buildRectImage(
+                    'https://firebasestorage.googleapis.com/v0/b/evewel-matching.appspot.com/o/wantedImage1-eY2BDJ4fu6B1ApR0C0mW?alt=media&token=049f10ea-4b4d-4c2c-b78f-9ccc058631df',
+                    50,
+                    40),
               ),
-              // Flexible(
-              //   child: Text(
-              //     "東京都渋谷区神南１－１９－３　ハイマンテン神南ビル　B1F",
-              //     style: TextStyle(fontSize: 9, color: txtGreyColor),
-              //     overflow: TextOverflow.ellipsis,
-              //     maxLines: 3,
-              //   ),
-              // ),
-              Text(
-                "東京都渋谷区神南１－１９－３　ハイマンテン神南ビル　B1F",
-                style: TextStyle(fontSize: 9, color: txtGreyColor),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 3,
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Store name",
+                      style: TextStyle(fontSize: 18, color: txtWhiteColor),
+                    ),
+                    // Flexible(
+                    //   child: Text(
+                    //     "東京都渋谷区神南１－１９－３　ハイマンテン神南ビル　B1F",
+                    //     style: TextStyle(fontSize: 9, color: txtGreyColor),
+                    //     overflow: TextOverflow.ellipsis,
+                    //     maxLines: 3,
+                    //   ),
+                    // ),
+                    Text(
+                      "東京都渋谷区神南１－１９－３　ハイマンテン神南ビル　B1F",
+                      style: TextStyle(fontSize: 9, color: txtGreyColor),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         ),
+        SizedBox(
+          width: width * 0.1,
+          child: buildVerticalFaIcon(
+            color: txtOrangeColor,
+            icon: FontAwesomeIcons.star,
+            txt: "5",
+            onpressed: () {},
+          ),
+        )
       ],
     );
   }

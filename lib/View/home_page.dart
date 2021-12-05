@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:gourmet/main.dart';
+import 'package:gourmet/my_theme.dart';
 import 'package:gourmet/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -10,6 +11,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:routeborn/routeborn.dart';
 import 'package:gourmet/View/help_page.dart';
 import 'diarylist_page.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final branchProvider = StateProvider((ref) => NestingBranch.Home);
 final branchNotifier = branchProvider.notifier;
@@ -57,6 +59,7 @@ class HomePageView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final width = MediaQuery.of(context).size.width;
     final currentTab = ref.watch(
       navigationNotifierProvider.select(
         (value) {
@@ -94,7 +97,7 @@ class HomePageView extends HookConsumerWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        color: Theme.of(context).primaryColor,
+        color: Color(0xffffffff),
         notchMargin: 6.0,
         shape: AutomaticNotchedShape(
           RoundedRectangleBorder(),
@@ -107,51 +110,58 @@ class HomePageView extends HookConsumerWidget {
           child: new Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.home,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  ref
-                      .watch(branchNotifier)
-                      .update((state) => state = NestingBranch.Home);
-                },
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.menu_book,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  ref
-                      .watch(branchNotifier)
-                      .update((state) => state = NestingBranch.Diary);
-                },
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.bookmark,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  ref
-                      .watch(branchNotifier)
-                      .update((state) => state = NestingBranch.Favorite);
-                },
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  ref
-                      .watch(branchNotifier)
-                      .update((state) => state = NestingBranch.Account);
-                },
-              ),
+              buildBottomIcon(
+                  nestedbranch: NestingBranch.Home,
+                  icon: FontAwesomeIcons.home,
+                  txt: "HOME"),
+              buildBottomIcon(
+                  nestedbranch: NestingBranch.Diary,
+                  icon: FontAwesomeIcons.book,
+                  txt: "Diary"),
+              SizedBox(width: 25, height: 36),
+              buildBottomIcon(
+                  nestedbranch: NestingBranch.Favorite,
+                  icon: FontAwesomeIcons.bookmark,
+                  txt: "Bookmark"),
+              buildBottomIcon(
+                  nestedbranch: NestingBranch.Account,
+                  icon: FontAwesomeIcons.userCircle,
+                  txt: "Account"),
+              // IconButton(
+              //   icon: Icon(
+              //     Icons.menu_book,
+              //     color: bottomIconColor,
+              //   ),
+              //   onPressed: () {
+              //     ref
+              //         .watch(branchNotifier)
+              //         .update((state) => state = NestingBranch.Diary);
+              //   },
+              // ),
+              // IconButton(
+              //   icon: Icon(
+              //     Icons.bookmark,
+              //     color: bottomIconColor,
+              //   ),
+              //   onPressed: () {
+              //     ref
+              //         .watch(branchNotifier)
+              //         .update((state) => state = NestingBranch.Favorite);
+              //   },
+              // ),
+              // IconButton(
+              //   icon: Icon(
+              //     Icons.person,
+              //     color: bottomIconColor,
+              //   ),
+              //   onPressed: () {
+              //     ref
+              //         .watch(branchNotifier)
+              //         .update((state) => state = NestingBranch.Account);
+              //   },
+              // ),
             ],
           ),
         ),
@@ -193,6 +203,53 @@ class HomePageView extends HookConsumerWidget {
           //       _Tab(index2Branch(index)),
           // ),
           ),
+    );
+  }
+}
+
+class buildBottomIcon extends ConsumerWidget {
+  final nestedbranch;
+  final icon;
+  final txt;
+  const buildBottomIcon({Key? key, this.nestedbranch, this.icon, this.txt})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        // width: 50,
+        height: 36,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            IconButton(
+              constraints: BoxConstraints(),
+              padding: EdgeInsets.zero,
+              icon: FaIcon(
+                icon,
+                color: ref.watch(branchProvider) == nestedbranch
+                    ? bottomSelectedColor
+                    : bottomIconColor,
+              ),
+              onPressed: () {
+                ref
+                    .watch(branchNotifier)
+                    .update((state) => state = nestedbranch);
+              },
+            ),
+            Text(
+              txt,
+              style: TextStyle(
+                  fontSize: 10,
+                  color: ref.watch(branchProvider) == nestedbranch
+                      ? bottomSelectedColor
+                      : bottomIconColor),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
